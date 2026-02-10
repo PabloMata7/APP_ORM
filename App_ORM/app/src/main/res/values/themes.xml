@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.App_ORM_Jorge_Diaz_Diego_Diaz_Pablo_Mata_Rodrigo_Herrero_Examen_T2" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.App_ORM_Jorge_Diaz_Diego_Diaz_Pablo_Mata_Rodrigo_Herrero_Examen_T2" parent="Base.Theme.App_ORM_Jorge_Diaz_Diego_Diaz_Pablo_Mata_Rodrigo_Herrero_Examen_T2" />
+</resources>
