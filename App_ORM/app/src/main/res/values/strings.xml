@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">App_ORM_Jorge_Diaz_Diego_Diaz_Pablo_Mata_Rodrigo_Herrero_Examen_T2</string>
+    <string name="titulo_app">THE VAULT: INVENTARIO</string>
+    <string name="hint_nombre">Nombre de la carta (ej. Charizard)</string>
+    <string name="hint_valor">Valor de mercado (€)</string>
+    <string name="btn_guardar">GUARDAR EN MONGODB</string>
+    <string name="btn_listar">LISTAR COLECCIÓN</string>
 </resources>

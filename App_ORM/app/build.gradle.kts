@@ -36,6 +36,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -47,4 +50,15 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Retrofit: La librería para hacer peticiones HTTP (como libcurl en C++)
+    implementation(libs.retrofit.core)
+
+    // Gson: Para convertir los JSON de MongoDB a objetos de Kotlin automáticamente
+    implementation(libs.retrofit.gson)
+
+    // Corrutinas: Para que la app no se congele al consultar los datos
+    implementation(libs.kotlinx.coroutines)
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 }
