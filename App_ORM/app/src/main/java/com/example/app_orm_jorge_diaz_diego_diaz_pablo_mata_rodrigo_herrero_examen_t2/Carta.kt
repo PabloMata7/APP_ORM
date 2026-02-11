@@ -12,24 +12,24 @@ data class Carta (
     @PrimaryKey(autoGenerate = true)
     val idLocal: Int = 0,
 
-    @SerializedName("_franquicia")
+    @SerializedName("franquicia")
     val franquicia: String = "",
 
-    @SerializedName("_coleccion")
+    @SerializedName("coleccion")
     val coleccion: String = "",
 
-    @SerializedName("nombre_carta")
+    @SerializedName("nombreCarta")
     val nombre: String = "", // Valor por defecto: string vacío
 
-    @SerializedName("edicion_rareza")
+    @SerializedName("rareza")
     val edicion: String = "",
 
-    @SerializedName("estado_conservacion")
+    @SerializedName("estadoConservacion")
     val estado: String = "",
 
-    @SerializedName("valor_mercado")
+    @SerializedName("precioMercado")
     val valorMercado: Double = 0.0, // Valor por defecto: cero
 
-    @SerializedName("precio_venta")
+    @SerializedName("precioVenta")
     val precioVenta: Double = 0.0
 )
