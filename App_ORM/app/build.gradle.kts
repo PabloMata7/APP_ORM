@@ -45,6 +45,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Libreria: https://github.com/sparrow007/CarouselRecyclerview
+    implementation("com.github.sparrow007:carouselrecyclerview:1.2.6")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
