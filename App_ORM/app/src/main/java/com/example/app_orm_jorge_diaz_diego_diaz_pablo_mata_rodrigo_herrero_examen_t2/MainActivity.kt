@@ -1,6 +1,7 @@
 package com.example.app_orm_jorge_diaz_diego_diaz_pablo_mata_rodrigo_herrero_examen_t2
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -40,16 +41,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun guardarEnMongo(carta: Carta) {
+        println("DEBUG: Iniciando guardado...") // Esto saldrá en el Logcat
+
         lifecycleScope.launch {
             try {
+                println("DEBUG: Enviando carta a Retrofit: ${carta.nombre}")
                 val response = RetrofitClient.instance.insertarCarta(carta)
+
+                println("DEBUG: Respuesta recibida. Código: ${response.code()}")
+
                 if (response.isSuccessful) {
-                    Toast.makeText(this@MainActivity, "Guardado en The Vault", Toast.LENGTH_SHORT).show()
-                    binding.etNombre.text.clear()
-                    binding.etValor.text.clear()
+                    println("DEBUG: ÉXITO")
+                    Toast.makeText(this@MainActivity, "Guardado con éxito", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Esto leerá el mensaje de error real que envía el servidor Node.js
+                    val errorMsg = response.errorBody()?.string()
+                    Log.e("THE_VAULT", "Error del servidor: $errorMsg")
+                    Toast.makeText(this@MainActivity, "Error: $errorMsg", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@MainActivity, "Fallo de red: ${e.message}", Toast.LENGTH_LONG).show()
+                println("DEBUG: EXCEPCIÓN: ${e.message}")
+                e.printStackTrace() // Esto te dirá exactamente qué falla
+                Toast.makeText(this@MainActivity, "Error de red", Toast.LENGTH_SHORT).show()
             }
         }
     }
