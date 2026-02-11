@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         val buttonSalir: Button = findViewById(R.id.button_salir)
         buttonSalir.setOnClickListener {
-            finish()
+            finishAffinity()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
