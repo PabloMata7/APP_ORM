@@ -6,7 +6,16 @@
     <string name="btn_guardar">GUARDAR EN MONGODB</string>
     <string name="btn_listar">LISTAR COLECCIÓN</string>
     <string name="btn_about_us">Sobre nosotros</string>
-    <string name="about_us_text">Somos un grupo de desarrolladores apasionados por la tecnología.</string>
+    <string name="about_us_project_label">Proyecto:</string>
+    <string name="about_us_project_value">Sistema de Gestión "The Vault"</string>
+    <string name="about_us_module_label">Módulo:</string>
+    <string name="about_us_module_value">Programación Multimedia y Acceso a Datos</string>
+    <string name="about_us_description">Esta aplicación ha sido desarrollada como examen del segundo trimestre. Implementa una arquitectura de acceso a datos mediante un ORM específico, permitiendo la gestión completa de registros (CRUD) en una base de datos externa/interna.</string>
+    <string name="about_us_developers_label">Desarrolladores:</string>
+    <string name="about_us_developer_1">• Jorge Díaz</string>
+    <string name="about_us_developer_2">• Diego Díaz</string>
+    <string name="about_us_developer_3">• Pablo Mata</string>
+    <string name="about_us_developer_4">• Rodrigo Herrero</string>
     <string name="btn_volver">Volver</string>
     <string name="guardado_exito">Guardado con éxito</string>
     <string name="error_servidor">Error: %1$s</string>
