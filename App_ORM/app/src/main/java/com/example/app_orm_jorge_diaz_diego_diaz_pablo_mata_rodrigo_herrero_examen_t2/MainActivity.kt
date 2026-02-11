@@ -81,8 +81,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
     private fun guardadoRoomMongo(cartaInicial: Carta) {
         lifecycleScope.launch(Dispatchers.IO) {
 
@@ -109,15 +107,9 @@ class MainActivity : AppCompatActivity() {
                     db.cartaDao().actualizarCarta(cartaCompleta) // Necesitas tener @Update en tu DAO
 
                     mensaje = "Sincronizado: Room (ID $idGenerado) + Mongo"
->>>>>>> Stashed changes
                 }
                 // En MainActivity.kt
             } catch (e: Exception) {
-<<<<<<< Updated upstream
-                println("DEBUG: EXCEPCIÓN: ${e.message}")
-                e.printStackTrace() // Esto te dirá exactamente qué falla
-                Toast.makeText(this@MainActivity, "Error de red", Toast.LENGTH_SHORT).show()
-=======
                 // CAMBIA ESTO: Haz que el Toast muestre el error técnico
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@MainActivity, "ERROR RED: ${e.message}", Toast.LENGTH_LONG).show()
@@ -131,7 +123,6 @@ class MainActivity : AppCompatActivity() {
                 binding.etNombre.text.clear()
                 binding.etValor.text.clear()
                 cargarDeRoom()
->>>>>>> Stashed changes
             }
         }
     }
@@ -251,3 +242,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+

@@ -13,17 +13,10 @@ data class Carta (
     val idLocal: Int = 0,
 
     @SerializedName("_franquicia")
-<<<<<<< Updated upstream
     val franquicia: String = "",
 
     @SerializedName("_coleccion")
     val coleccion: String = "",
-=======
-    val franquicia: String? = "",
-
-    @SerializedName("_coleccion")
-    val coleccion: String? = "",
->>>>>>> Stashed changes
 
     @SerializedName("nombre_carta")
     val nombre: String = "", // Valor por defecto: string vacío
