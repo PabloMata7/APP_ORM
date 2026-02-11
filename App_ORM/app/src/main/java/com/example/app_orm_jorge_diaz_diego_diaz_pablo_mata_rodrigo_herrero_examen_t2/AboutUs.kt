@@ -38,5 +38,11 @@ class AboutUs : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+        // 5. Configurar el botón Salir
+        val buttonSalir: Button = findViewById(R.id.button_salir)
+        buttonSalir.setOnClickListener {
+            finishAffinity()
+        }
     }
 }

@@ -7,35 +7,67 @@
     tools:context=".AboutUs">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/about_us_text"
-        app:layout_constraintBottom_toTopOf="@+id/recycler"
+        android:text="@string/nuestro_equipo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/about_us_text"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
     <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/button_volver"
+        android:layout_height="0dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Button
-        android:id="@+id/button_volver"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:layout_marginBottom="32dp"
-        android:text="@string/btn_volver"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button_volver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textSize="18sp"
+            android:text="@string/btn_volver" />
+
+        <Button
+            android:id="@+id/button_salir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="18sp"
+            android:text="@string/btn_salir" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
