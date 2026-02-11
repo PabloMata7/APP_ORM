@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import androidx.room.util.copy
 import com.example.app_orm_jorge_diaz_diego_diaz_pablo_mata_rodrigo_herrero_examen_t2.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         adapter = CartaAdapter(
             onDeleteClick = { carta -> borrarCarta(carta) } // Acción al pulsar borrar
         )
-        // Conectar la parte visual (RecyclerView) con la lógica (Adapter)
+// Conectar la parte visual (RecyclerView) con la lógica (Adapter)
         binding.rvCartas.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         binding.rvCartas.adapter = adapter
         // 3. Ejemplo de cómo llamar a MongoDB al pulsar un botón
@@ -72,15 +73,12 @@ class MainActivity : AppCompatActivity() {
             sincronizarYMostrar()
         }
 
-        // Botón "Sobre Nosotros"
-        binding.btnAboutUs.setOnClickListener {
-            startActivity(Intent(this, AboutUs::class.java))
-        }
+        // Botón Acerca De (Requisito examen)
+//        binding.btnAcercaDe.setOnClickListener {
+//            startActivity(Intent(this, AcercaDeActivity::class.java))
+//        }
 
-        // Botón "Salir"
-        binding.btnSalir.setOnClickListener {
-            finishAffinity()
-        }
+
     }
 
     private fun guardadoRoomMongo(cartaInicial: Carta) {
