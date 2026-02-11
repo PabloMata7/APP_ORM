@@ -1,10 +1,16 @@
 package com.example.app_orm_jorge_diaz_diego_diaz_pablo_mata_rodrigo_herrero_examen_t2
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-class Carta (
+@Entity(tableName = "tabla_cartas")
+data class Carta (
     @SerializedName("_id")
-    val id: String? = null,
+    val idMongo: String? = null,
+
+    @PrimaryKey(autoGenerate = true)
+    val idLocal: Int = 0,
 
     @SerializedName("_franquicia")
     val franquicia: String = "",
@@ -17,9 +23,6 @@ class Carta (
 
     @SerializedName("edicion_rareza")
     val edicion: String = "",
-
-    @SerializedName("codigo_verificacion")
-    val codigo: String = "",
 
     @SerializedName("estado_conservacion")
     val estado: String = "",

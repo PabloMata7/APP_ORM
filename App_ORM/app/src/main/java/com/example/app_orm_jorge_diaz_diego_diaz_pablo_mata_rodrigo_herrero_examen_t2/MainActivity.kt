@@ -3,46 +3,63 @@ package com.example.app_orm_jorge_diaz_diego_diaz_pablo_mata_rodrigo_herrero_exa
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import androidx.room.util.copy
 import com.example.app_orm_jorge_diaz_diego_diaz_pablo_mata_rodrigo_herrero_examen_t2.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var db: AppDatabase
+    private lateinit var adapter: CartaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        // Inicialización de Room
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "the_vault_db"
+        ).build()
+        adapter = CartaAdapter(
+            onDeleteClick = { carta -> borrarCarta(carta) } // Acción al pulsar borrar
+        )
+// Conectar la parte visual (RecyclerView) con la lógica (Adapter)
+        binding.rvCartas.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        binding.rvCartas.adapter = adapter
         // 3. Ejemplo de cómo llamar a MongoDB al pulsar un botón
         binding.btnGuardar.setOnClickListener {
             val nombre = binding.etNombre.text.toString()
             val valor = binding.etValor.text.toString().toDoubleOrNull() ?: 0.0
 
             if (nombre.isNotEmpty()) {
-                val nuevaCarta = Carta(nombre = nombre, valorMercado = valor)
-                guardarEnMongo(nuevaCarta)
+                // Creamos la carta inicial (Sin IDs todavía)
+                val nuevaCarta = Carta(
+                    nombre = nombre,
+                    valorMercado = valor,
+                    edicion = "Base Set",
+                    estado = "NM",
+                    precioVenta = valor * 1.2, // Ejemplo de lógica de negocio
+                    // idLocal = 0 (Room lo generará)
+                    // idMongo = null (Mongo lo generará)
+                )
+
+                // Llamamos a la función híbrida
+                guardadoRoomMongo(nuevaCarta)
+            } else {
+                Toast.makeText(this, "Rellena el nombre", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        val buttonAboutUs: Button = findViewById(R.id.button_about_us)
-        buttonAboutUs.setOnClickListener {
-            val intent = Intent(this, AboutUs::class.java)
-            startActivity(intent)
-        }
-
-        val buttonSalir: Button = findViewById(R.id.button_salir)
-        buttonSalir.setOnClickListener {
-            finishAffinity()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -51,35 +68,64 @@ class MainActivity : AppCompatActivity() {
             insets
             //asdf
         }
+        // Botón Listar (CRUD: Read)
+        binding.btnCargarCartas.setOnClickListener {
+            sincronizarYMostrar()
+        }
+
+        // Botón Acerca De (Requisito examen)
+//        binding.btnAcercaDe.setOnClickListener {
+//            startActivity(Intent(this, AcercaDeActivity::class.java))
+//        }
+
+
     }
 
-    private fun guardarEnMongo(carta: Carta) {
-        println("DEBUG: Iniciando guardado...") // Esto saldrá en el Logcat
+    private fun guardadoRoomMongo(cartaInicial: Carta) {
+        lifecycleScope.launch(Dispatchers.IO) {
 
-        lifecycleScope.launch {
+            // 1. GUARDAR EN ROOM PRIMERO (Para obtener el idLocal)
+            val idGenerado = db.cartaDao().insertarCarta(cartaInicial)
+
+            // Creamos una copia de la carta con el ID real que nos ha dado Room
+            // (ej: idLocal pasa de 0 a 1)
+            var cartaCompleta = cartaInicial.copy(idLocal = idGenerado.toInt())
+
+            var mensaje = "Guardado en Local (ID: $idGenerado)"
+
+            // 2. ENVIAR A MONGO (Ahora lleva el idLocal correcto)
             try {
-                println("DEBUG: Enviando carta a Retrofit: ${carta.nombre}")
-                val response = RetrofitClient.instance.insertarCarta(carta)
+                val response = RetrofitClient.instance.insertarCarta(cartaCompleta)
 
-                println("DEBUG: Respuesta recibida. Código: ${response.code()}")
+                if (response.isSuccessful && response.body() != null) {
+                    // Mongo nos devuelve el _id de la nube
+                    val cartaDeMongo = response.body()!!
 
-                if (response.isSuccessful) {
-                    println("DEBUG: ÉXITO")
-                    Toast.makeText(this@MainActivity, getString(R.string.guardado_exito), Toast.LENGTH_SHORT).show()
-                } else {
-                    // Esto leerá el mensaje de error real que envía el servidor Node.js
-                    val errorMsg = response.errorBody()?.string()
-                    Log.e("THE_VAULT", "Error del servidor: $errorMsg")
-                    Toast.makeText(this@MainActivity, getString(R.string.error_servidor, errorMsg), Toast.LENGTH_LONG).show()
+                    // 3. ACTUALIZAR ROOM CON EL ID DE MONGO
+                    // Ya tenemos idLocal (1) y idMongo (5f4a...), lo actualizamos en el móvil
+                    cartaCompleta = cartaCompleta.copy(idMongo = cartaDeMongo.idMongo)
+                    db.cartaDao().actualizarCarta(cartaCompleta) // Necesitas tener @Update en tu DAO
+
+                    mensaje = "Sincronizado: Room (ID $idGenerado) + Mongo"
                 }
+                // En MainActivity.kt
             } catch (e: Exception) {
-                println("DEBUG: EXCEPCIÓN: ${e.message}")
-                e.printStackTrace() // Esto te dirá exactamente qué falla
-                Toast.makeText(this@MainActivity, getString(R.string.error_red), Toast.LENGTH_SHORT).show()
+                // CAMBIA ESTO: Haz que el Toast muestre el error técnico
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "ERROR RED: ${e.message}", Toast.LENGTH_LONG).show()
+                    android.util.Log.e("ERROR_MONGO", "Fallo detallado: ", e) // Míralo en Logcat también
+                }
+            }
+
+            // 4. ACTUALIZAR UI
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@MainActivity, mensaje, Toast.LENGTH_LONG).show()
+                binding.etNombre.text.clear()
+                binding.etValor.text.clear()
+                cargarDeRoom()
             }
         }
     }
-
     private fun cargarDatosDesdeMongo() {
         // Usamos lifecycleScope (Corrutinas) para no bloquear la UI
         lifecycleScope.launch {
@@ -89,14 +135,111 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val listaCartas = response.body()
                     // Aquí actualizarías tu RecyclerView o UI con los datos
-                    Toast.makeText(this@MainActivity, getString(R.string.cartas_recibidas, listaCartas?.size ?: 0), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Cartas recibidas: ${listaCartas?.size}", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this@MainActivity, getString(R.string.error_servidor_general), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Error en el servidor", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 // Capturamos errores de red (ej: sin internet o servidor apagado)
-                Toast.makeText(this@MainActivity, getString(R.string.error_conexion, e.message), Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Error de conexión: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    private fun cargarDeRoom() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Obtenemos la lista de la base de datos
+            val lista = db.cartaDao().obtenerTodas()
+
+            // Volvemos al hilo principal para tocar la interfaz (UI)
+            withContext(Dispatchers.Main) {
+                if (::adapter.isInitialized) { // Verificamos que el adapter existe
+                    adapter.actualizarLista(lista)
+                }
+            }
+        }
+    }
+
+    // 2. Función para borrar una carta
+    private fun borrarCarta(carta: Carta) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            var mensaje = ""
+            try {
+                // 1. Borrar de MongoDB
+                if (carta.idMongo != null) {
+                    val response = RetrofitClient.instance.eliminarCarta(carta.idMongo)
+                    if (response.isSuccessful) {
+                        mensaje = "Carta eliminada de la nube. "
+                    } else {
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(this@MainActivity, "Error al eliminar de la nube", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+                // 2. Borrar de Room
+                db.cartaDao().borrarCarta(carta)
+                mensaje += "Carta eliminada de la base de datos local."
+
+                // 3. Actualizar UI
+                withContext(Dispatchers.Main) {
+                    cargarDeRoom()
+                    Toast.makeText(this@MainActivity, mensaje, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "Error de red: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+    private fun sincronizarYMostrar() {
+        // Mostramos un aviso de carga
+        Toast.makeText(this, "Sincronizando con la Nube...", Toast.LENGTH_SHORT).show()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                // 1. DESCARGAR DE MONGO
+                val response = RetrofitClient.instance.obtenerTodasLasCartas() //
+
+                if (response.isSuccessful && response.body() != null) {
+                    val listaNube = response.body()!!
+
+                    // 2. LIMPIEZA (Opcional: Para no duplicar datos antiguos)
+                    // Si quieres mezclar lo local y lo nube, quita esta línea.
+                    // Si quieres que el móvil sea un espejo exacto de la nube, déjala.
+                    db.cartaDao().borrarTodas()
+
+                    // 3. GUARDAR EN ROOM
+                    listaNube.forEach { cartaNube ->
+                        // TRUCO IMPORTANTE:
+                        // La carta viene de Mongo con idLocal=0 o null.
+                        // Al guardarla, Room le asignará un nuevo ID autoincremental (1, 2, 3...)
+                        // Asegúrate de que idLocal sea 0 para que Room sepa que es nueva.
+                        val cartaParaRoom = cartaNube.copy(idLocal = 0)
+
+                        db.cartaDao().insertarCarta(cartaParaRoom) //
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "Sin conexión: Mostrando datos locales", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // 4. MOSTRAR LOS DATOS (Siempre desde Room)
+            // Tanto si hubo internet (datos nuevos) como si no (datos viejos),
+            // leemos de la base de datos local.
+            val listaFinal = db.cartaDao().obtenerTodas()
+
+            withContext(Dispatchers.Main) {
+                if (::adapter.isInitialized) {
+                    adapter.actualizarLista(listaFinal) //
+                    if (listaFinal.isEmpty()) {
+                        Toast.makeText(this@MainActivity, "No hay cartas ni en Local ni en Nube", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }
 }
+
