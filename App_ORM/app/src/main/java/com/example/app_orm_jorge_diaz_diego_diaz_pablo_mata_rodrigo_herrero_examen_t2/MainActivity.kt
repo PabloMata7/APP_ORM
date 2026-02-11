@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "the_vault_db"
-        ).build()
+        ).fallbackToDestructiveMigration(true).build()
         adapter = CartaAdapter(
             onDeleteClick = { carta -> borrarCarta(carta) } // Acción al pulsar borrar
         )
