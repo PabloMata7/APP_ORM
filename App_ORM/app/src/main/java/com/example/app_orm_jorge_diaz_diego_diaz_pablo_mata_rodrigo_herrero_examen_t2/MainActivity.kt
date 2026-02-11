@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         binding.rvCartas.adapter = adapter
         // 3. Ejemplo de cómo llamar a MongoDB al pulsar un botón
         binding.btnGuardar.setOnClickListener {
-            val nombre = binding.etNombre.text.toString()
-            val valor = binding.etValor.text.toString().toDoubleOrNull() ?: 0.0
+            val nombre = binding.Nombre.text.toString()
+            val valor = binding.Valor.text.toString().toDoubleOrNull() ?: 0.0
 
             if (nombre.isNotEmpty()) {
                 // Creamos la carta inicial (Sin IDs todavía)
@@ -120,8 +120,8 @@ class MainActivity : AppCompatActivity() {
             // 4. ACTUALIZAR UI
             withContext(Dispatchers.Main) {
                 Toast.makeText(this@MainActivity, mensaje, Toast.LENGTH_LONG).show()
-                binding.etNombre.text.clear()
-                binding.etValor.text.clear()
+                binding.Nombre.text.clear()
+                binding.Valor.text.clear()
                 cargarDeRoom()
             }
         }
