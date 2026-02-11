@@ -6,6 +6,12 @@ class Carta (
     @SerializedName("_id")
     val id: String? = null,
 
+    @SerializedName("_franquicia")
+    val franquicia: String = "",
+
+    @SerializedName("_coleccion")
+    val coleccion: String = "",
+
     @SerializedName("nombre_carta")
     val nombre: String = "", // Valor por defecto: string vacío
 

@@ -51,6 +51,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+
     // Retrofit: La librería para hacer peticiones HTTP (como libcurl en C++)
     implementation(libs.retrofit.core)
 
