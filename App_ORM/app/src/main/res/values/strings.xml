@@ -5,4 +5,14 @@
     <string name="hint_valor">Valor de mercado (€)</string>
     <string name="btn_guardar">GUARDAR EN MONGODB</string>
     <string name="btn_listar">LISTAR COLECCIÓN</string>
+    <string name="btn_about_us">Sobre nosotros</string>
+    <string name="about_us_text">Somos un grupo de desarrolladores apasionados por la tecnología.</string>
+    <string name="btn_volver">Volver</string>
+    <string name="guardado_exito">Guardado con éxito</string>
+    <string name="error_servidor">Error: %1$s</string>
+    <string name="error_red">Error de red</string>
+    <string name="cartas_recibidas">Cartas recibidas: %1$d</string>
+    <string name="error_servidor_general">Error en el servidor</string>
+    <string name="error_conexion">Error de conexión: %1$s</string>
+    <string name="btn_salir">Salir</string>
 </resources>
