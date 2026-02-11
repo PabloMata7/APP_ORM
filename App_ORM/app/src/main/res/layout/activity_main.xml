@@ -4,15 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#121212"> <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/titulo_app"
-    android:textColor="#FFD700"
-    android:textSize="24sp"
-    android:textStyle="bold"
-    android:layout_gravity="center"
-    android:layout_marginBottom="20dp"/>
+    android:background="#121212">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titulo_app"
+        android:textColor="#FFD700"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"/>
 
     <EditText
         android:id="@+id/Nombre"
@@ -94,14 +96,6 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_listar"
         android:layout_marginTop="5dp"/>
-    <Button
-        android:id="@+id/btnAcercaDe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Acerca de..."
-        android:backgroundTint="#555555"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="5dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartas"
@@ -110,4 +104,32 @@
         android:layout_weight="1"
         android:layout_marginTop="10dp"/>
 
+<<<<<<< Updated upstream
 </LinearLayout>
+=======
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/btnAboutUs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_about_us"
+            android:layout_marginEnd="5dp"/>
+
+        <Button
+            android:id="@+id/btnSalir"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_salir"
+            android:layout_marginStart="5dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+>>>>>>> Stashed changes
