@@ -15,21 +15,69 @@
     android:layout_marginBottom="20dp"/>
 
     <EditText
-        android:id="@+id/etNombre"
+        android:id="@+id/Nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:height="48dp"
         android:hint="@string/hint_nombre"
-        android:textColorHint="#888888"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888" />
 
     <EditText
-        android:id="@+id/etValor"
+        android:id="@+id/Franquicia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:height="48dp"
+        android:hint="@string/hint_franquicia"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/Coleccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="48dp"
+        android:hint="@string/hint_coleccion"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/Edicion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="48dp"
+        android:hint="@string/hint_edicion"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/Estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="48dp"
+        android:hint="@string/hint_estado"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/Precio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="48dp"
+        android:hint="@string/hint_precio"
+        android:inputType="numberDecimal"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/Valor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="48dp"
         android:hint="@string/hint_valor"
         android:inputType="numberDecimal"
-        android:textColorHint="#888888"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888" />
 
     <Button
         android:id="@+id/btnGuardar"
