@@ -21,12 +21,12 @@ class AboutUs : AppCompatActivity() {
         // 2. Configuración del Adaptador
         val adaptador = ImagenAdapter(lista)
 
-        // 3. Configuración del Carrusel con los efectos de tu captura
+        // 3. Configuración del Carrusel
         val carouselRecyclerview = findViewById<CarouselRecyclerview>(R.id.recycler)
 
         carouselRecyclerview.apply {
-            this.adapter = adaptador  // Establecemos el adaptador
-            set3DItem(false)          // Configuración según tu captura
+            this.adapter = adaptador
+            set3DItem(false)
             setAlpha(false)
             setFlat(true)
             setInfinite(true)
