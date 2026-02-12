@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         // 3. Ejemplo de cómo llamar a MongoDB al pulsar un botón
         binding.btnGuardar.setOnClickListener {
-            val nombre = binding.etNombre.text.toString()
-            val valor = binding.etValor.text.toString().toDoubleOrNull() ?: 0.0
+            val nombre = binding.Nombre.text.toString()
+            val valor = binding.Valor.text.toString().toDoubleOrNull() ?: 0.0
 
             if (nombre.isNotEmpty()) {
                 val nuevaCarta = Carta(nombre = nombre, valorMercado = valor)
