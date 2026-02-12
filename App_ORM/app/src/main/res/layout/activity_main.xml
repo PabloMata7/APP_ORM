@@ -4,15 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#121212"> <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/titulo_app"
-    android:textColor="#FFD700"
-    android:textSize="24sp"
-    android:textStyle="bold"
-    android:layout_gravity="center"
-    android:layout_marginBottom="20dp"/>
+    android:background="@color/vault_gray_dark">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titulo_app"
+        android:textColor="@color/vault_yellow_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"/>
 
     <EditText
         android:id="@+id/Nombre"
@@ -20,8 +22,8 @@
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="@string/hint_nombre"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/vault_gray_light" />
 
     <EditText
         android:id="@+id/Franquicia"
@@ -29,8 +31,8 @@
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="@string/hint_franquicia"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/vault_gray_light" />
 
     <EditText
         android:id="@+id/Coleccion"
@@ -38,8 +40,8 @@
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="@string/hint_coleccion"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/vault_gray_light" />
 
     <EditText
         android:id="@+id/Edicion"
@@ -47,8 +49,8 @@
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="@string/hint_edicion"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/vault_gray_light" />
 
     <EditText
         android:id="@+id/Estado"
@@ -56,8 +58,8 @@
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="@string/hint_estado"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/vault_gray_light" />
 
     <EditText
         android:id="@+id/Precio"
@@ -66,8 +68,8 @@
         android:height="48dp"
         android:hint="@string/hint_precio"
         android:inputType="numberDecimal"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/vault_gray_light" />
 
     <EditText
         android:id="@+id/Valor"
@@ -76,16 +78,16 @@
         android:height="48dp"
         android:hint="@string/hint_valor"
         android:inputType="numberDecimal"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/vault_gray_light" />
 
     <Button
         android:id="@+id/btnGuardar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_guardar"
-        android:backgroundTint="#FFD700"
-        android:textColor="#000000"
+        android:backgroundTint="@color/vault_yellow_dark"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"/>
 
     <Button
@@ -93,6 +95,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_listar"
+        android:backgroundTint="@color/vault_gray_medium"
+        android:textColor="@color/white"
         android:layout_marginTop="5dp"/>
 
     <LinearLayout
@@ -107,8 +111,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_about_us"
-            android:backgroundTint="#555555"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/vault_gray_medium"
+            android:textColor="@color/white"
             android:layout_marginEnd="2.5dp"/>
 
         <Button
@@ -117,8 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_salir"
-            android:backgroundTint="#555555"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/vault_gray_medium"
+            android:textColor="@color/white"
             android:layout_marginStart="2.5dp"/>
 
     </LinearLayout>

@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Gama de Amarillos -->
+    <color name="vault_yellow_dark">#FFD700</color> <!-- Amarillo oscuro para acentos -->
+    <color name="vault_yellow_light">#FFEE70</color> <!-- Amarillo claro para fondos -->
+
+    <!-- Gama de Grises -->
+    <color name="vault_gray_dark">#121212</color> <!-- Gris oscuro para fondos -->
+    <color name="vault_gray_medium">#424242</color> <!-- Gris medio para botones -->
+    <color name="vault_gray_light">#888888</color> <!-- Gris claro para textos secundarios -->
 </resources>
