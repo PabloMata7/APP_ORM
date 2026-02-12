@@ -3,6 +3,7 @@ package com.example.app_orm_jorge_diaz_diego_diaz_pablo_mata_rodrigo_herrero_exa
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -85,11 +86,15 @@ class MainActivity : AppCompatActivity() {
             sincronizarYMostrar()
         }
 
-        // Botón Acerca De (Requisito examen)
-//        binding.btnAcercaDe.setOnClickListener {
-//            startActivity(Intent(this, AcercaDeActivity::class.java))
-//        }
+        // Botón "Sobre Nosotros"
+        findViewById<Button>(R.id.btnAboutUs).setOnClickListener {
+            startActivity(Intent(this, AboutUs::class.java))
+        }
 
+        // Botón "Salir"
+        findViewById<Button>(R.id.btnSalir).setOnClickListener {
+            finishAffinity()
+        }
 
     }
 
