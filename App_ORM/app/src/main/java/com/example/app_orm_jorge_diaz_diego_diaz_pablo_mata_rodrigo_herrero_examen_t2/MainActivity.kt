@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvCartas.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         binding.rvCartas.adapter = adapter
-        // 3. Ejemplo de cómo llamar a MongoDB al pulsar un botón
+        // ejemplo de cómo llamar a MongoDB al pulsar un botón
         binding.btnGuardar.setOnClickListener {
             val nombre = binding.Nombre.text.toString()
             val franquicia = binding.Franquicia.text.toString()

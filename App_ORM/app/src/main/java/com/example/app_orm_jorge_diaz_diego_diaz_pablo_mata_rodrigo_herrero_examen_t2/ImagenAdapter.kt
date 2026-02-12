@@ -22,9 +22,9 @@ class ImagenAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // IMPORTANTE: Aquí usamos .image porque es como lo definimos en el modelo
+        // Aquí usamos .image y .img porque es como lo definimos en el modelo
         Glide.with(holder.image.context)
-            .load(lista[position].img) // Cambiado a .image para que coincida
+            .load(lista[position].img)
             .into(holder.image)
     }
 
