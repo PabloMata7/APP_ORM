@@ -7,8 +7,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-// El adaptador recibe una función 'onDeleteClick' que se ejecutará al pulsar la papelera
 class CartaAdapter(
+    private val onCartaClick: (Carta) -> Unit,
     private val onDeleteClick: (Carta) -> Unit
 ) : RecyclerView.Adapter<CartaAdapter.CartaViewHolder>() {
 
@@ -16,11 +16,10 @@ class CartaAdapter(
 
     fun actualizarLista(nuevaLista: List<Carta>) {
         listaCartas = nuevaLista
-        notifyDataSetChanged() // Avisa a la lista para refrescarse
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartaViewHolder {
-        // Asegúrate de tener creado el layout 'item_carta.xml' (ver Paso 3)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_carta, parent, false)
         return CartaViewHolder(view)
     }
@@ -29,9 +28,12 @@ class CartaAdapter(
         val carta = listaCartas[position]
         holder.bind(carta)
 
-        // Al pulsar el botón de borrar (asegúrate de que el ID en xml sea btnEliminarItem)
         holder.itemView.findViewById<View>(R.id.btnEliminarItem).setOnClickListener {
-            onDeleteClick(carta) // Esto llama a borrarCartaLocal en el MainActivity
+            onDeleteClick(carta)
+        }
+
+        holder.itemView.setOnClickListener {
+            onCartaClick(carta)
         }
     }
 
@@ -43,7 +45,7 @@ class CartaAdapter(
 
         fun bind(carta: Carta) {
             tvNombre.text = carta.nombre
-            tvPrecio.text = "${carta.valorMercado} €"
+            tvPrecio.text = "Estado: ${carta.estado} | ${carta.valorMercado}€"
         }
     }
 }

@@ -33,30 +33,42 @@ class MainActivity : AppCompatActivity() {
             AppDatabase::class.java, "the_vault_db"
         ).fallbackToDestructiveMigration(true).build()
         adapter = CartaAdapter(
-            onDeleteClick = { carta -> borrarCarta(carta) } // Acción al pulsar borrar
+            // Acción al pulsar la fila (Editar)
+            onCartaClick = { carta -> mostrarDialogoEditar(carta) },
+
+            // Acción al pulsar la papelera (Borrar)
+            onDeleteClick = { carta -> borrarCarta(carta) }
         )
-// Conectar la parte visual (RecyclerView) con la lógica (Adapter)
+
         binding.rvCartas.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         binding.rvCartas.adapter = adapter
         // 3. Ejemplo de cómo llamar a MongoDB al pulsar un botón
         binding.btnGuardar.setOnClickListener {
             val nombre = binding.Nombre.text.toString()
-            val valor = binding.Valor.text.toString().toDoubleOrNull() ?: 0.0
+            val franquicia = binding.Franquicia.text.toString()
+            val coleccion = binding.Coleccion.text.toString()
+            val rareza = binding.Edicion.text.toString()
+            val estado = binding.Estado.text.toString()
+            val valorMercado = binding.Valor.text.toString().toDoubleOrNull() ?: 0.0
+            val precioVenta = binding.Precio.text.toString().toDoubleOrNull() ?: 0.0
 
             if (nombre.isNotEmpty()) {
                 // Creamos la carta inicial (Sin IDs todavía)
                 val nuevaCarta = Carta(
                     nombre = nombre,
-                    valorMercado = valor,
-                    edicion = "Base Set",
-                    estado = "NM",
-                    precioVenta = valor * 1.2, // Ejemplo de lógica de negocio
+                    franquicia = franquicia,
+                    coleccion = coleccion,
+                    edicion = rareza,     // Corresponde a 'edicion_rareza'
+                    estado = estado,      // Corresponde a 'estado_conservacion'
+                    valorMercado = valorMercado,
+                    precioVenta = precioVenta,
                     // idLocal = 0 (Room lo generará)
                     // idMongo = null (Mongo lo generará)
                 )
 
                 // Llamamos a la función híbrida
                 guardadoRoomMongo(nuevaCarta)
+                limpiarCampos()
             } else {
                 Toast.makeText(this, "Rellena el nombre", Toast.LENGTH_SHORT).show()
             }
@@ -240,6 +252,81 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    private fun mostrarDialogoEditar(carta: Carta) {
+        val context = this
+        val layout = android.widget.LinearLayout(context)
+        layout.orientation = android.widget.LinearLayout.VERTICAL
+        layout.setPadding(50, 40, 50, 10)
+
+        val etEstado = android.widget.EditText(context)
+        etEstado.hint = "Estado (ej: NM)"
+        etEstado.setText(carta.estado)
+
+        val etValor = android.widget.EditText(context)
+        etValor.hint = "Valor Mercado"
+        etValor.inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+        etValor.setText(carta.valorMercado.toString())
+
+        val etPrecio = android.widget.EditText(context)
+        etPrecio.hint = "Precio Venta"
+        etPrecio.inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+        etPrecio.setText(carta.precioVenta.toString())
+
+        layout.addView(etEstado)
+        layout.addView(etValor)
+        layout.addView(etPrecio)
+
+        androidx.appcompat.app.AlertDialog.Builder(context)
+            .setTitle("Editar ${carta.nombre}")
+            .setView(layout)
+            .setPositiveButton("Guardar") { _, _ ->
+                val nuevoEstado = etEstado.text.toString()
+                val nuevoValor = etValor.text.toString().toDoubleOrNull() ?: 0.0
+                val nuevoPrecio = etPrecio.text.toString().toDoubleOrNull() ?: 0.0
+
+                // Creamos la carta modificada
+                val cartaActualizada = carta.copy(
+                    estado = nuevoEstado,
+                    valorMercado = nuevoValor,
+                    precioVenta = nuevoPrecio
+                )
+                actualizarCarta(cartaActualizada)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    // 2. Guardar los cambios en Room y Mongo
+    private fun actualizarCarta(carta: Carta) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            // A. Actualizar en Mongo (Si tiene ID)
+            if (!carta.idMongo.isNullOrEmpty()) {
+                try {
+                    RetrofitClient.instance.actualizarCarta(carta.idMongo, carta)
+                } catch (e: Exception) {
+                    // Si falla internet, seguimos para guardar en local
+                }
+            }
+
+            // B. Actualizar en Room (Siempre)
+            db.cartaDao().actualizarCarta(carta)
+
+            // C. Refrescar pantalla
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@MainActivity, "Carta actualizada", Toast.LENGTH_SHORT).show()
+                cargarDeRoom()
+            }
+        }
+    }
+    private fun limpiarCampos() {
+        binding.Nombre.text.clear()
+        binding.Franquicia.text.clear()
+        binding.Coleccion.text.clear()
+        binding.Edicion.text.clear()
+        binding.Estado.text.clear()
+        binding.Valor.text.clear()
+        binding.Precio.text.clear()
     }
 }
 
