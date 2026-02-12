@@ -94,14 +94,34 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_listar"
         android:layout_marginTop="5dp"/>
-    <Button
-        android:id="@+id/btnAcercaDe"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Acerca de..."
-        android:backgroundTint="#555555"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="5dp"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <Button
+            android:id="@+id/btnAboutUs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_about_us"
+            android:backgroundTint="#555555"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="2.5dp"/>
+
+        <Button
+            android:id="@+id/btnSalir"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_salir"
+            android:backgroundTint="#555555"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="2.5dp"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartas"

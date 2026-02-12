@@ -95,7 +95,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSalir).setOnClickListener {
             finishAffinity()
         }
-
     }
 
     private fun guardadoRoomMongo(cartaInicial: Carta) {
@@ -334,4 +333,3 @@ class MainActivity : AppCompatActivity() {
         binding.Precio.text.clear()
     }
 }
-
