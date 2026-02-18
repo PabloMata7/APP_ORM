@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class ImagenAdapter(
     var lista: ArrayList<ImagenModel>
@@ -22,9 +23,11 @@ class ImagenAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Aquí usamos .image y .img porque es como lo definimos en el modelo
+        // Forzamos a Glide a no usar la caché para evitar este tipo de problemas.
         Glide.with(holder.image.context)
             .load(lista[position].img)
+            .diskCacheStrategy(DiskCacheStrategy.NONE) // No usar la caché de disco.
+            .skipMemoryCache(true) // No usar la caché de memoria.
             .into(holder.image)
     }
 
