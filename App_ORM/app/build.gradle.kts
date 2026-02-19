@@ -49,26 +49,18 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
     // Libreria: https://github.com/sparrow007/CarouselRecyclerview
     implementation("com.github.sparrow007:carouselrecyclerview:1.2.6")
-
     // Glide
     implementation("com.github.bumptech.glide:glide:4.15.1")
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
     // Retrofit: La librería para hacer peticiones HTTP (como libcurl en C++)
     implementation(libs.retrofit.core)
-
     // Gson: Para convertir los JSON de MongoDB a objetos de Kotlin automáticamente
     implementation(libs.retrofit.gson)
-
     // Corrutinas: Para que la app no se congele al consultar los datos
     implementation(libs.kotlinx.coroutines)
-
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 }
